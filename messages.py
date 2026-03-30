@@ -1,5 +1,0 @@
-MSG_WELCOME_MISTER = "Welcome, Mr. {fullname}!"
-MSG_INPUT_BREAD_QUANTITY = "Введіть кількість хлібу для купівлі: "
-MSG_CORRECT_INPUT = "Дані введено коректно )"
-MSG_INCORRECT_INPUT = "Are you nuts? Read input message again"
-MSG_FINISH = "FINISH"
