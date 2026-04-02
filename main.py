@@ -6,7 +6,6 @@ from pywebio.output import put_markdown, put_text, put_image
 import pictures
 import prices
 
-import discount
 from discount import DISCOUNT_PERCENTAGE, DISCOUNT_TRIGGER_COST
 
 # Header
@@ -26,7 +25,7 @@ put_text(f"Caviar by {prices.PRICE_CAVIAR_10g} grn / 10g")
 put_markdown("## Ordering:")
 
 quantity_pizza = input("How many pizza do you like?", type="number", min=0, value=1)
-quantity_caviar_g = slider(label="How much caviar do you like?", min_value=0, max_value=1000, value=10, step=10)
+quantity_caviar_g = slider("How much caviar do you like?", min_value=0, max_value=1000, value=10, step=10)
 quantity_caviar = quantity_caviar_g / 10
 
 # calculation
@@ -36,7 +35,7 @@ total_cost = cost_caviar + cost_pizza
 
 discount_summa = 0
 if total_cost >= DISCOUNT_TRIGGER_COST:
-    discount_suma = round(total_cost * DISCOUNT_PERCENTAGE / 100, 0)
+    discount_summa = round(total_cost * DISCOUNT_PERCENTAGE / 100, 0)
 
 final_cost = total_cost - discount_summa
 
