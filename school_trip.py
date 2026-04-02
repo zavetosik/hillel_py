@@ -45,7 +45,7 @@ transport_cost = 0
 buses = 0
 
 if transport == "🚆 Поїзд":
-    transport_cost = people * prices.PRICE_TRAIN
+    transport_cost = people * prices.PRICE_BUS
 
 if transport == "🚌 Автобус":
     buses = (people + 39) // 40   # округлення вверх
