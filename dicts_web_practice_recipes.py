@@ -8,46 +8,35 @@ params = {
 }
 
 response = requests.get(url=url_recipes, params=params)
-response_json = response.json()
-
-recipes = response_json['recipes']
+recipes = response.json()['recipes']
 
 
 pizza_recipes = []
+italian_count = 0
+max_calories = 0
+max_recipe = None
+recipes_190 = []
+total_reviews = 0
+
+
 for recipe in recipes:
-    if "pizza" in recipe['name']:
+    # pizza recipes
+    if "pizza" in recipe['name'].lower():
         pizza_recipes.append(recipe)
 
-
-
-italian_count = 0
-for recipe in recipes:
+    # italian count
     if recipe['cuisine'] == 'Italian':
         italian_count += 1
 
-
-
-max_calories = 0
-max_recipe = None
-
-for recipe in recipes:
+    # max calories
     if recipe['caloriesPerServing'] > max_calories:
         max_calories = recipe['caloriesPerServing']
         max_recipe = recipe
 
-
-
-recipes_190 = []
-
-for recipe in recipes:
-    if len(recipe['instructions']) > 0:
-        first_instruction = recipe['instructions'][0]
-        if "190" in first_instruction:
+    # instructions with 190
+    if recipe['instructions']:
+        if "190" in recipe['instructions'][0]:
             recipes_190.append(recipe)
 
-
-
-total_reviews = 0
-
-for recipe in recipes:
+    # total reviews
     total_reviews += recipe['reviewCount']
