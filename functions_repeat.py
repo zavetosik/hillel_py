@@ -2,22 +2,24 @@
 vowels = ['a', 'e', 'i', 'o', 'u', 'y', 'A', 'E', 'I', 'O', 'U', 'Y']
 
 
-def average(a: int | float, b: int | float, c: int | float) -> float:
-    average_result = (a + b + c) / 3
-    return average_result.__round__(2)
+def get_average(number_1: int | float, number_2: int | float, number_3: int | float) -> float:
+    average_result = (number_1 + number_2 + number_3) / 3
+    return round(average_result, 2)
 
 
 
-def foo(something) -> bool:
-    foo_result = something % 2 == 0 and something > 10
+def get_check(number_check: int | float) -> bool:
+    foo_result = number_check % 2 == 0 and number_check > 10
     return foo_result
 
-def foov2(text: str) -> int:
+def count_vowels(text_vowels: str) -> int | float:
     count = 0
 
-    for char in text:
+    for char in text_vowels:
         if char in vowels:
             count += 1
 
     return count
+
+
 
