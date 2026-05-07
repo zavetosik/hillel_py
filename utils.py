@@ -10,7 +10,8 @@ def get_weather_info(city: str) -> dict:
         "units": "metric",
     }
     response = requests.get(constants.OPEN_WEATHER_API_URL, params=params)
-    print(response.url)
+    response_json = response.json()
+    print(response.url, response_json)
     return {}
 
 
