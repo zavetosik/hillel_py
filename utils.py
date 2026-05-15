@@ -1,19 +1,27 @@
-import requests
-import constants
-from config import API_KEY
+def get_distance(time_seconds: int | float, velocity_meters_per_second: int | float) -> float:
+    distance = time_seconds * velocity_meters_per_second * 1.0
+    distance = round(distance, 2)
+    return distance
 
 
-def get_weather_info(city: str) -> dict:
-    params = {
-        "q": city,
-        "appid": API_KEY,
-        "units": "metric",
-    }
-    response = requests.get(constants.OPEN_WEATHER_API_URL, params=params)
-    response_json = response.json()
-    print(response.url, response_json)
-    return {}
+def print_msg() -> None:
+    print('Welcome')
+    print('message')
+    # return
+    # return None
 
 
+def get_number_5() -> int:  # int float str list dict None
+    print('function get_number_5 was called')
+    number_5_to_give = 5
+    return number_5_to_give
 
-get_weather_info("odesa")
+
+def foo():
+    return
+
+
+def calculate_summa(number_1: int | float, number_2: int | float) -> float:
+    result = number_1 + number_2
+    return result * 1.0
+
