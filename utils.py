@@ -1,19 +1,59 @@
-import requests
-import constants
-from config import API_KEY
+import smtplib
+
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+import jinja2
+import config
 
 
-def get_weather_info(city: str) -> dict:
-    params = {
-        "q": city,
-        "appid": API_KEY,
-        "units": "metric",
-    }
-    response = requests.get(constants.OPEN_WEATHER_API_URL, params=params)
-    response_json = response.json()
-    print(response.url, response_json)
-    return {}
+def send_email(
+    recipients: list[str],
+    mail_body: str,
+    mail_subject: str,
+):
+    TOKEN = config.TOKEN_UKR_NET
+    USER = config.USER_UKR_NET
+    SMTP_SERVER = config.SMTP_SERVER
+
+    msg = MIMEMultipart("alternative")
+
+    msg["Subject"] = mail_subject
+    msg["From"] = f"<Email was sent from {USER}>"
+    msg["To"] = ", ".join(recipients)
+    msg["Reply-To"] = USER
+    msg["Return-Path"] = USER
+
+    text_to_send = MIMEText(mail_body, "html")
+
+    msg.attach(text_to_send)
+
+    mail = smtplib.SMTP_SSL(SMTP_SERVER)
+
+    mail.login(USER, TOKEN)
+
+    mail.sendmail(
+        USER,
+        recipients,
+        msg.as_string(),
+    )
+
+    mail.quit()
 
 
+def create_string_report(data: dict) -> str:
+    template_loader = jinja2.FileSystemLoader(searchpath="./")
 
-get_weather_info("odesa")
+    template_env = jinja2.Environment(
+        loader=template_loader
+    )
+
+    template_file = "templates/string.html"
+
+    template = template_env.get_template(
+        template_file
+    )
+
+    output = template.render(data)
+
+    return output
