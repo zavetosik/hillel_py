@@ -38,7 +38,7 @@ def main():
 
     run_js("""
         setTimeout(() => {
-            window.location.reload();
+            window.location.reload()
         }, 5000);
     """)
 
