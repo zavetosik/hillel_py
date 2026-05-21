@@ -18,13 +18,13 @@ class Person:
 person_1 = Person(name='   alex')
 print(id(person_1))
 
+print(person_1)
 print(person_1.__dict__)
+person_1.money += 10000
 print(person_1)
 
 person_1_money_usd = person_1.money / 44.30
 print(person_1_money_usd)
-person_1.money += 10000
-print(person_1)
 
 person_1.deposit_money(111)
 print(person_1)
