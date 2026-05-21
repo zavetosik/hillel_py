@@ -1,58 +1,51 @@
+import utils
 
-# input()
-from pywebio.input import input, slider
-from pywebio.output import put_markdown, put_text, put_image
+from pywebio.input import input
+from pywebio.input import input_group
+from pywebio.output import put_success
 
-import pictures
-import prices
+from pywebio import start_server
+from pywebio.session import run_js
 
-from discount import DISCOUNT_PERCENTAGE, DISCOUNT_TRIGGER_COST
 
-# Header
-put_markdown("# 🍽️ Ресторан \"Смачна їжа\"")
-put_markdown("---")
+def main():
+    data = input_group(
+        "Send String",
+        [
+            input("Name", name="name", required=True),
+            input("String", name="content", required=True),
+            input("Email", name="email", required=True),
+        ]
+    )
 
-# MENU
-put_markdown("## 📋 Menu:")
+    content = data["content"].strip()
 
-put_image(pictures.PICTURE_PIZZA)
-put_text(f"🍕Pizza by {prices.PRICE_PIZZA} grn")
+    email_body = utils.create_string_report(
+        {
+            "name": data["name"],
+            "content": content,
+            "length": len(content),
+        }
+    )
 
-put_image(pictures.PICTURE_CAVIAR, width="300")
-put_text(f"Caviar by {prices.PRICE_CAVIAR_10g} grn / 10g")
+    utils.send_email(
+        [data["email"]],
+        email_body,
+        mail_subject="String Length",
+    )
 
-# Order placing
-put_markdown("## Ordering:")
+    put_success("Email was sent. The page reloads in 5 seconds...")
 
-quantity_pizza = input("How many pizza do you like?", type="number", min=0, value=1)
-quantity_caviar_g = slider("How much caviar do you like?", min_value=0, max_value=1000, value=10, step=10)
-quantity_caviar = quantity_caviar_g / 10
+    run_js("""
+        setTimeout(() => {
+            window.location.reload()
+        }, 5000);
+    """)
 
-# calculation
-cost_pizza = quantity_pizza * prices.PRICE_PIZZA
-cost_caviar = quantity_caviar * prices.PRICE_CAVIAR_10g
-total_cost = cost_caviar + cost_pizza
 
-discount_summa = 0
-if total_cost >= DISCOUNT_TRIGGER_COST:
-    discount_summa = round(total_cost * DISCOUNT_PERCENTAGE / 100, 0)
-
-final_cost = total_cost - discount_summa
-
-# ORDER
-put_markdown("## RESULT:")
-
-if cost_pizza:
-    put_text(f"🍕Pizza: {quantity_pizza} / {prices.PRICE_PIZZA} grn = {cost_pizza}")
-if cost_caviar:
-    put_text(f"🍕cost_caviar: {quantity_caviar_g} / {prices.PRICE_CAVIAR_10g} grn/10g = {cost_caviar}")
-
-if total_cost:
-    put_text(f"Total cost: {total_cost}")
-
-if discount_summa:
-    put_text(f"discount_summa : {discount_summa}")
-    put_text(f"))))))))))))))")
-
-put_text(f"final_cost: {final_cost}")
-
+start_server(
+    main,
+    host="0.0.0.0",
+    port=8888,
+    debug=True,
+)
